@@ -20,7 +20,6 @@ public class Printer {
     public static void append(String text, String name, int count){
         queue = queue + "\n" + text + " " + name + " " + count;
         pendingCount = pendingCount + count;
-        sumCount = pendingCount;
     }
 
     public static void clear() {
@@ -33,9 +32,7 @@ public class Printer {
 
     }
 
-    public static int sumCount(){
-        return sumCount;
-    }
+
 
     public static void print(String title){
         System.out.println(title);
@@ -44,6 +41,11 @@ public class Printer {
             System.out.println("Очередь на печать пуста");
         }else {
             System.out.println(queue);
+            sumCount = sumCount + pendingCount;
         }
+    }
+
+    public static int sumCount(){
+        return sumCount;
     }
 }
