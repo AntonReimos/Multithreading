@@ -11,7 +11,7 @@ public class Basket {
         increaseCount(1);
         items = "Список товаров:";
         this.limit = 1000000;
-        this.limitWeight = 3000;
+        this.limitWeight = 6000;
     }
 
     public Basket(int limit) {
@@ -53,9 +53,9 @@ public class Basket {
             error = true;
         }
 
-        //if(totalWeight + weight >= limitWeight){
-        //  error = true;
-        //}
+        if(totalWeight + weight >= limitWeight){
+            error = true;
+        }
 
         if (error) {
             System.out.println("Error occured :(");
@@ -63,14 +63,14 @@ public class Basket {
         }
 
         items = items + "\n" + name + " - " +
-                count + " шт. - " + price + "(" + weight + ")";
+            count + " шт. - " + price + "(" + weight + ")";
         totalPrice = totalPrice + count * price;
         totalWeight = totalWeight + count * weight;
     }
 
     public void clear() {
-        items = "";
-        totalPrice = 0;
+       items = "";
+       totalPrice = 0;
     }
 
     public int getTotalPrice() {
@@ -81,7 +81,7 @@ public class Basket {
         return items.contains(name);
     }
 
-    public double getTotalWeight() {
+     public double getTotalWeight() {
         return totalWeight;
     }
 
