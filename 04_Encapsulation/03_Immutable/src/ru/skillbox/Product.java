@@ -15,7 +15,6 @@ public class Product {
         return name;
     }
 
-
     public int getPrice() {
         return price;
     }
@@ -24,7 +23,7 @@ public class Product {
         return barCode;
     }
 
-    public void setPrice(int price){
+    public void setPrice(int price) {
         this.price = price;
     }
 
