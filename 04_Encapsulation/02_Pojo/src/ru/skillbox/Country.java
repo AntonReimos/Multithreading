@@ -1,10 +1,10 @@
 package ru.skillbox;
 public class Country {
-    public String countryName; //название страны
-    public int populationOfCountry; //население
-    public int squareCountry; //площадь страны
-    public String capitalOfCountry; // сталица
-    public boolean seaGate; // выход к морю
+    private String countryName; //название страны
+    private int populationOfCountry; //население
+    private int squareCountry; //площадь страны
+    private String capitalOfCountry; // сталица
+    private boolean seaGate; // выход к морю
 
 
     public Country(String name, int population, int square, String capital, boolean gate) {

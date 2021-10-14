@@ -1,10 +1,10 @@
 package ru.skillbox;
 
 public class Bus {
-    public String busName;
-    public double gasMileage;
-    public int maxSpeed;
-    public int numberOfSeats;
+    private String busName;
+    private double gasMileage;
+    private int maxSpeed;
+    private int numberOfSeats;
 
     public Bus(String name, double mileage, int speed, int seats) {
         this.busName = name;
