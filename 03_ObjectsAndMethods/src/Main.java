@@ -4,7 +4,7 @@ public class Main {
         Basket basket = new Basket();
         basket.add("Milk", 40, 400, 5);
         basket.add("Cheese", 80, 600, 5);
-        basket.add("Bread", 410, 700, 2);
+        basket.add("Bread", 410, 700, 5);
         basket.print("Milk");
 
         Basket basket1 = new Basket();
@@ -20,6 +20,11 @@ public class Main {
         basket2.add("Cheese", 80, 600, 5);
         basket2.add("Bread", 110, 300, 2);
         basket2.print("\n" + "Корзина 3");
+
+        Basket basket3 = new Basket();
+        basket3.clear();
+        basket3.add("Pepsi", 65, 330, 5);
+        basket3.print("\n" + "Корзина 4");
 
         System.out.println("Корзин создано: " + Basket.getCount() + "\n" +
                 "Количество товаров: " + Basket.getItemsCount()  + "\n" +

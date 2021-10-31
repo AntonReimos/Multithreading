@@ -73,6 +73,8 @@ public class Basket {
         totalPrice = totalPrice + count * price;
         totalWeight = totalWeight + count * weight;
         totalCount = totalCount + count;
+        itemsCount = itemsCount + totalCount;
+        itemsPrice = itemsPrice + totalPrice ;
     }
 
     public static int getAveragePriceItems(){
@@ -111,8 +113,7 @@ public class Basket {
         if (items.isEmpty()) {
             System.out.println("Корзина пуста");
         } else {
-            itemsCount = itemsCount + totalCount;
-            itemsPrice = itemsPrice + totalPrice ;
+
             System.out.println(items);
             System.out.println("Цена:" + totalPrice + " Вес:" + totalWeight + " Кол-во:" + totalCount);
         }
