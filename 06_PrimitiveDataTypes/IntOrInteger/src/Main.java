@@ -8,7 +8,7 @@ public class Main {
         //  С помощью цикла и преобразования чисел в символы найдите все коды
         //  букв русского алфавита — заглавных и строчных, в том числе буквы Ё.
 
-        char first = 'а';
+        char first = 'А';
         char last = 'ё';
         int firstCode = first;
         int lastCode = last;
