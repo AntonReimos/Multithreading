@@ -1,23 +1,31 @@
-public class TopManager extends Workers
-        implements Employee {
-private static int TopManagerSolary;
-private static String TopManagerName;
+public class TopManager implements Employee {
+    private static int TopManagerSalary;
+    private final int CAPITAL = 10_000_000;
+    private final int MAX_SALARY = 80_000;
+    private final int MIN_SALARY = 120_000;
+    private int salary;
     // TopManager — зарплата складывается из фиксированной части и бонуса в виде 150% от заработной платы,
     // если доход компании более 10 млн рублей.
 
-
-    public TopManager(int solary, String name) {
-        TopManagerName = SetName.setName(name);
-        if (Company.CompanyIncome() < 10_000_000) {
-            TopManagerSolary = solary;
-        } else {
-            TopManagerSolary = (int) (solary + solary * 1.5);
-        }super.Workers(TopManagerSolary, TopManagerName);
+    public TopManager() {
+        this.salary = getMonthSalary();
     }
 
+    @Override
+    public int getSalary() {
+        return this.salary;
+    }
 
     @Override
     public int getMonthSalary() {
-        return 0;
+        int salary = 0;
+        salary = (int) (MIN_SALARY + (Math.random() * (MAX_SALARY - MIN_SALARY)));
+
+        if (Company.getCompanyIncome() < CAPITAL) {
+            TopManagerSalary = salary;
+        } else {
+            TopManagerSalary = (int) (salary + salary * 1.5);
+        }
+        return TopManagerSalary;
     }
 }

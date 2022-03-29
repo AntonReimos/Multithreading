@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Company {
@@ -23,47 +24,52 @@ public class Company {
     // Аргументы и возвращаемое значение метода выберите в соответствии с логикой начисления зарплат.
     // В интерфейсе при необходимости объявляйте необходимые методы.
 
+    private static ArrayList<Employee> companyEmployee;
+    private static int companyIncome;
 
-    static ArrayList<Workers> companyEmployee;
-
-
-    public Company() {
+    public Company(int income) {
         companyEmployee = new ArrayList<>();
-
-        CompanyIncome();
+        companyIncome = income;
     }
 
-    public static int CompanyIncome() {
-        int companyIncome = 0;
-        int MAX_INCOME = 25_000_000;
-        int incone = (int) (Math.random() * MAX_INCOME);
-        companyIncome = incone;
+    public static int getCompanyIncome() {
         return companyIncome;
     }
 
-    //Добавление одного сотрудника
-    public void hire(Workers o) {
-        companyEmployee.add(o);
-    }
-
-    public void hireAll(int salary, String name) {
-
-    }
-
-    public void fire() {
-
-    }
-
-    public List<Workers> getTopSalaryStaff(int count) {
-
+    public static ArrayList<Employee> getCompanyEmployee() {
         return companyEmployee;
     }
 
+    public void hire(Employee employee) {
+        companyEmployee.add(employee);
+    }
 
-//    public List<Employee> getLowestSalaryStaff(int count) {
-//        return;
-//    }
+    public void hireAll(List<Employee> employees) {
+        companyEmployee.addAll(employees);
 
+    }
 
+    public void fire(Employee employee) {
+        companyEmployee.remove(employee);
+
+    }
+
+    public List<Employee> getTopSalaryStaff(int count) {
+        companyEmployee.sort(Comparator.comparingInt(Employee::getSalary).reversed());
+        List<Employee> out = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            out.add(companyEmployee.get(i));
+        }
+        return out;
+    }
+
+    public List<Employee> getLowestSalaryStaff(int count) {
+        companyEmployee.sort(Comparator.comparingInt(Employee::getSalary));
+        List<Employee> out = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            out.add(companyEmployee.get(i));
+        }
+        return out;
+    }
 
 }

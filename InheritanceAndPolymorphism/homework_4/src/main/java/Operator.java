@@ -1,22 +1,19 @@
-public  class Operator {//implements Employee  {
+public class Operator implements Employee {
+    private int salary;
 
-    public void hire(String name) {
-        //int salary = 25_000;
 
+    public Operator() {
+        this.salary = getMonthSalary();
     }
 
-    //@Override
-    public void hireAll(String name) {
-
+    @Override
+    public int getSalary() {
+        return this.salary;
     }
 
-   // @Override
-    public void fire() {
-
-    }
-
-   // @Override
+    @Override
     public int getMonthSalary() {
-        return 0;
+        salary = 35_000;
+        return salary;
     }
 }
