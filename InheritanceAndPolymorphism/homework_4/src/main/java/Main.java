@@ -8,10 +8,10 @@ public class Main {
         for (int i = 0; i < 10; i++) {
             pepsi.hire(new TopManager());
         }
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 80; i++) {
             pepsi.hire(new Manager());
         }
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 180; i++) {
             pepsi.hire(new Operator());
         }
 
@@ -32,18 +32,18 @@ public class Main {
         cola.hireAll(listOfApplicants);
 
         System.out.println("Самые высокие зарплаты в компании Pepsi" + "\n");
-        pepsi.getTopSalaryStaff(35).forEach(i -> System.out.println(i.getSalary() + " " + "руб."));
+        pepsi.getTopSalaryStaff(15).forEach(i -> System.out.println(i.getSalary() + " " + "руб."));
         System.out.println("\n" + "Самые низкие зарплаты в компании Pepsi" + "\n");
-        pepsi.getLowestSalaryStaff(35).forEach(i -> System.out.println(i.getSalary() + " " + "руб."));
+        pepsi.getLowestSalaryStaff(30).forEach(i -> System.out.println(i.getSalary() + " " + "руб."));
 
         for (int i = 0; i < pepsi.getCompanyEmployee().size() / 2; i++) {
             pepsi.fire(pepsi.getCompanyEmployee().get(i));
         }
 
         System.out.println("Самые высокие зарплаты в компании Pepsi после увольнения" + "\n");
-        pepsi.getTopSalaryStaff(35).forEach(i -> System.out.println(i.getSalary() + " " + "руб."));
+        pepsi.getTopSalaryStaff(15).forEach(i -> System.out.println(i.getSalary() + " " + "руб."));
         System.out.println("\n" + "Самые низкие зарплаты в компании Pepsi после увольнения" + "\n");
-        pepsi.getLowestSalaryStaff(35).forEach(i -> System.out.println(i.getSalary() + " " + "руб."));
+        pepsi.getLowestSalaryStaff(30).forEach(i -> System.out.println(i.getSalary() + " " + "руб."));
 
         System.out.println("Самые высокие зарплаты в компании Cola" + "\n");
         cola.getTopSalaryStaff(15).forEach(i -> System.out.println(i.getSalary() + " " + "руб."));

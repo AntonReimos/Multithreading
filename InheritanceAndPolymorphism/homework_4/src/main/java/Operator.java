@@ -1,7 +1,6 @@
 public class Operator implements Employee {
     private int salary;
 
-
     public Operator() {
         this.salary = getMonthSalary();
     }

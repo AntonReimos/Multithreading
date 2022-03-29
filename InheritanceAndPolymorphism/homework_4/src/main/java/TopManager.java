@@ -4,8 +4,6 @@ public class TopManager implements Employee {
     private final int MAX_SALARY = 80_000;
     private final int MIN_SALARY = 120_000;
     private int salary;
-    // TopManager — зарплата складывается из фиксированной части и бонуса в виде 150% от заработной платы,
-    // если доход компании более 10 млн рублей.
 
     public TopManager() {
         this.salary = getMonthSalary();
