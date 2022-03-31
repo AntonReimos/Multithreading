@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
 
@@ -17,19 +14,8 @@ public class Main {
 
 
         Company cola = new Company(25_000_000);
-        List<Employee> listOfApplicants = new ArrayList<>();
+        cola.hireAll(Company.setEmployeeList(10, 20, 30));
 
-        for (int i = 0; i < 10; i++) {
-            listOfApplicants.add(new TopManager());
-        }
-        for (int i = 0; i < 80; i++) {
-            listOfApplicants.add(new Manager());
-        }
-        for (int i = 0; i < 180; i++) {
-            listOfApplicants.add(new Operator());
-        }
-
-        cola.hireAll(listOfApplicants);
 
         System.out.println("Самые высокие зарплаты в компании Pepsi" + "\n");
         pepsi.getTopSalaryStaff(15).forEach(i -> System.out.println(i.getSalary() + " " + "руб."));
