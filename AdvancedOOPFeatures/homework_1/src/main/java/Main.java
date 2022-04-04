@@ -1,9 +1,5 @@
-
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -12,8 +8,6 @@ public class Main {
     public static void main(String[] args) {
         List<Employee> staff = Employee.loadStaffFromFile(STAFF_TXT);
         sortBySalaryAndAlphabet(staff);
-
-
     }
 
     //TODO: В классе Main реализуйте метод sortBySalaryAndAlphabet(),
@@ -26,16 +20,15 @@ public class Main {
 
     public static void sortBySalaryAndAlphabet(List<Employee> staff) {
         //TODO Метод должен отсортировать сотрудников по заработной плате и алфавиту.
-
-        List<Employee> sortStaff = staff.stream().sorted(
-                Comparator.comparing(Employee::getSalary).thenComparing(Employee::getName)
-        ).collect(Collectors.toList());
-
-
-        for (Employee employee : sortStaff) {
+        Collections.sort(staff, (emp1, emp2) -> {
+            if (emp1.getSalary().equals(emp2.getSalary())) {
+                return emp1.getName().compareTo(emp2.getName());
+            } else {
+                return (emp1.getSalary().compareTo(emp2.getSalary()));
+            }
+        });
+        for (Employee employee : staff) {
             System.out.println(employee);
         }
-
-
     }
 }
