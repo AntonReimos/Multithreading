@@ -30,9 +30,9 @@ public class Employee {
         }
         String dateFormat = "dd.MM.yyyy";
         staff.add(new Employee(
-            fragments[0],
-            Integer.parseInt(fragments[1]),
-            (new SimpleDateFormat(dateFormat)).parse(fragments[2])
+                fragments[0],
+                Integer.parseInt(fragments[1]),
+                (new SimpleDateFormat(dateFormat)).parse(fragments[2])
         ));
       }
     } catch (Exception ex) {
@@ -40,6 +40,7 @@ public class Employee {
     }
     return staff;
   }
+
 
   public String getName() {
     return name;
