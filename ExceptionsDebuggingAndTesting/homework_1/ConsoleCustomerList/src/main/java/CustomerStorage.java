@@ -36,20 +36,6 @@ public class CustomerStorage {
             throw new IllegalArgumentException("Throwable to be thrown, but nothing was thrown.3");
         }
 
-
-        //==========================================================
-//        String emailRegex = "\\w+@[a-zA-Z]+.[a-zA-Z]+";
-//        String regexPhone = "\\+\\d{11}";
-//        boolean correctEmail = Pattern.matches(emailRegex, components[INDEX_EMAIL]);
-//        boolean correctPhone = Pattern.matches(regexPhone, components[INDEX_PHONE]);
-//        if (!correctEmail) {
-//            throw new IllegalArgumentException("не верный email");
-//        }
-//        if (!correctPhone) {
-//            throw new IllegalArgumentException("Не верный формат номера");
-//        }
-        //==========================================================
-
         String name = components[INDEX_NAME] + " " + components[INDEX_SURNAME];
         storage.put(name, new Customer(name, components[INDEX_PHONE], components[INDEX_EMAIL]));
     }
