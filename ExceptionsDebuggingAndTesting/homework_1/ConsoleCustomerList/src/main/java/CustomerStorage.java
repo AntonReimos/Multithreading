@@ -1,5 +1,14 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
+
+//TODO: Пропишите в проекте ConsoleCustomerList в классе CustomerStorage
+// все возможные варианты защиты от некорректных данных и преждевременного
+// завершения метода добавления addCustomer().
+// Программа должна выбрасывать исключения (Exception) при неверном:
+// количестве компонентов в переданной строке с данными,
+// формате номера телефона,
+// формате email.
 
 public class CustomerStorage {
     private final Map<String, Customer> storage;
@@ -15,6 +24,32 @@ public class CustomerStorage {
         final int INDEX_PHONE = 3;
 
         String[] components = data.split("\\s+");
+
+        boolean email = Pattern.matches("[A-Za-z0-9]+@[A-Za-z]+(\\.)[A-Za-z]+", components[INDEX_EMAIL]);
+        boolean phone = Pattern.matches("\\+\\d{11}", components[INDEX_PHONE]);
+
+        if (components.length != 4) {
+            throw new IllegalArgumentException("Throwable to be thrown, but nothing was thrown.");
+        } else if (!email) {
+            throw new IllegalArgumentException("Throwable to be thrown, but nothing was thrown.2");
+        } else if (!phone) {
+            throw new IllegalArgumentException("Throwable to be thrown, but nothing was thrown.3");
+        }
+
+
+        //==========================================================
+//        String emailRegex = "\\w+@[a-zA-Z]+.[a-zA-Z]+";
+//        String regexPhone = "\\+\\d{11}";
+//        boolean correctEmail = Pattern.matches(emailRegex, components[INDEX_EMAIL]);
+//        boolean correctPhone = Pattern.matches(regexPhone, components[INDEX_PHONE]);
+//        if (!correctEmail) {
+//            throw new IllegalArgumentException("не верный email");
+//        }
+//        if (!correctPhone) {
+//            throw new IllegalArgumentException("Не верный формат номера");
+//        }
+        //==========================================================
+
         String name = components[INDEX_NAME] + " " + components[INDEX_SURNAME];
         storage.put(name, new Customer(name, components[INDEX_PHONE], components[INDEX_EMAIL]));
     }
