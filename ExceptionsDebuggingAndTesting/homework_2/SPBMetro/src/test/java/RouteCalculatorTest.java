@@ -77,7 +77,7 @@ public class RouteCalculatorTest extends TestCase {
 
     }
 
-    public void testGetShortestRouteOneCont(){
+    public void testGetShortestRouteOneCont() {
         List<Station> actual = routeCalculator.getShortestRoute(
                 stationIndex_2.getStation("Петровская_3"),
                 stationIndex_2.getStation("Дмитровская_2"));
@@ -90,7 +90,7 @@ public class RouteCalculatorTest extends TestCase {
         assertEquals(expected, actual);
     }
 
-    public void testGetShortestRouteOnLine(){
+    public void testGetShortestRouteOnLine() {
         List<Station> actual = routeCalculator.getShortestRoute(
                 stationIndex_2.getStation("Петровская_3"),
                 stationIndex_2.getStation("Петровская_1"));
@@ -101,7 +101,7 @@ public class RouteCalculatorTest extends TestCase {
         assertEquals(expected, actual);
     }
 
-    public void testGetShortestRouteOneCont_2(){
+    public void testGetShortestRouteOneCont_2() {
         List<Station> actual = routeCalculator.getShortestRoute(
                 stationIndex_2.getStation("Арбатская_1"),
                 stationIndex_2.getStation("Дмитровская_2"));
@@ -112,7 +112,7 @@ public class RouteCalculatorTest extends TestCase {
         assertEquals(expected, actual);
     }
 
-    public void testGetShortestRouteTwoCont(){
+    public void testGetShortestRouteTwoCont() {
 
         List<Station> actual = routeCalculator.getShortestRoute(
                 stationIndex_2.getStation("Арбатская_3"),
@@ -130,7 +130,7 @@ public class RouteCalculatorTest extends TestCase {
         assertEquals(expected, actual);
     }
 
-    public void testСalculateDuration(){
+    public void testСalculateDuration() {
         double actual = RouteCalculator.calculateDuration(route);
         double expected = 5;
         assertEquals(expected, actual);
