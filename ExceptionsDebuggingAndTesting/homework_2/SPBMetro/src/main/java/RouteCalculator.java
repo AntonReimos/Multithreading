@@ -16,13 +16,14 @@ public class RouteCalculator {
     }
 
     public List<Station> getShortestRoute(Station from, Station to) {
-        List<Station> route = getRouteOnTheLine(from, to);
+        List<Station> route;
+        route = getRouteOnTheLine(from, to);
         if (route != null) {
             return route;
         }
 
         route = getRouteWithOneConnection(from, to);
-        if (route != null) {
+        if (route != null && route.size() != 0) {
             return route;
         }
 
@@ -82,19 +83,19 @@ public class RouteCalculator {
 
         List<Station> route = new ArrayList<>();
 
-        List<Station> fromLineStations = from.getLine().getStations();
-        List<Station> toLineStations = to.getLine().getStations();
-        for (Station srcStation : fromLineStations) {
-            for (Station dstStation : toLineStations) {
-                if (isConnected(srcStation, dstStation)) {
-                    ArrayList<Station> way = new ArrayList<>();
-                    way.addAll(getRouteOnTheLine(from, srcStation));
-                    way.addAll(getRouteOnTheLine(dstStation, to));
-                    if (route.isEmpty() || route.size() > way.size()) {
-                        route.clear();
-                        route.addAll(way);
-                    }
-                }
+        List<Station> fromLineStations = from.getLine().getStations(); //станции на линии откуда
+        List<Station> toLineStations = to.getLine().getStations(); // станции на линии куда
+        for (Station srcStation : fromLineStations) { // для каждой станции откуда перебираем станции куда
+            for (Station dstStation : toLineStations) { // пока не найдем соединение
+                if (isConnected(srcStation, dstStation)) { //если есть соединение
+                    ArrayList<Station> way = new ArrayList<>(); //делаем новый лист
+                    way.addAll(getRouteOnTheLine(from, srcStation)); // в него добавляем станции откуда до пересадки
+                    way.addAll(getRouteOnTheLine(dstStation, to)); // и от пересадки куда
+                    if (route.isEmpty() || route.size() > way.size()) { // если маршрут пустой или больше пути
+                        route.clear(); // очищаем маршрут
+                        route.addAll(way);//заночим из листа путь в лист маршрут
+                    }// если соеднинения нет, то что?
+                } //return null;// не работает else{return null}
             }
         }
         return route;
@@ -139,6 +140,7 @@ public class RouteCalculator {
                 way.addAll(getRouteOnTheLine(from, srcStation));
                 way.addAll(connectedLineRoute);
                 way.addAll(getRouteOnTheLine(dstStation, to));
+
                 if (route.isEmpty() || route.size() > way.size()) {
                     route.clear();
                     route.addAll(way);

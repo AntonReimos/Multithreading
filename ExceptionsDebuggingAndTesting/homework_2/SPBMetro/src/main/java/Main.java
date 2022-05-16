@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static final String DATA_FILE = "src/main/resources/map.json";
+    private static final String DATA_FILE =  "homework_2\\SPBMetro\\src\\main\\resources\\map.json";//"src/main/resources/map.json";
     private static Scanner scanner;
 
     private static StationIndex stationIndex;
@@ -31,7 +31,10 @@ public class Main {
 
             System.out.println("Длительность: " +
                     RouteCalculator.calculateDuration(route) + " минут");
+
+
         }
+
     }
 
     private static RouteCalculator getRouteCalculator() {
@@ -144,4 +147,5 @@ public class Main {
         }
         return builder.toString();
     }
+
 }
