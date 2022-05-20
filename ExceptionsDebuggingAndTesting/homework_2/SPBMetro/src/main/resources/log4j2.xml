@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="FATAL">
+    <appenders>
+
+<!--        <File name="search" fileName="logs/search.log" immediateFlush="true">-->
+<!--            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+<!--        </File>-->
+
+        <!--        =========================================-->
+        <File name="search" fileName="logs/search.log" immediateFlush="true">
+            <MarkerFilter marker="SEARCH" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+
+        </File>
+
+        <File name="errors" fileName="logs/input_errors.log" immediateFlush="true">
+            <MarkerFilter marker="ERRORS" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+
+        <File name="debugs" fileName="logs/exceptions.log" immediateFlush="true">
+            <MarkerFilter marker="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+
+        <!--        =========================================-->
+
+<!--        <File name="errors" fileName="logs/input_errors.log" immediateFlush="true">-->
+<!--            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+<!--        </File>-->
+
+<!--        <File name="debugs" fileName="logs/exceptions.log" immediateFlush="true">-->
+<!--            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+<!--        </File>-->
+
+    </appenders>
+    <loggers>
+
+
+        <!--        logs/search.log — заполнять информацией о станциях, которые ищут (существующие станции),-->
+        <!--        logs/input_errors.log — заполнять информацией об ошибочном вводе (несуществующие станции),-->
+        <!--        logs/exceptions.log — вносить в лог информацию об исключениях (Exception).-->
+
+<!--        <logger name="SPB_Search_Log" level="info">-->
+<!--            <appender-ref ref="search"/>-->
+<!--        </logger>-->
+
+<!--        <logger name="SPB_Error_Log" level="error">-->
+<!--            <appender-ref ref="errors"/>-->
+<!--        </logger>-->
+
+<!--        <logger name="SPB_Debug_Log" level="debug">-->
+<!--            <appender-ref ref="debugs"/>-->
+<!--        </logger>-->
+
+        <root level="ALL">
+            <appender-ref ref="search"/>
+            <appender-ref ref="errors"/>
+            <appender-ref ref="debugs"/>
+        </root>
+
+<!--        <root level="warn">-->
+<!--            <appender-ref ref="Console"/>-->
+<!--        </root>-->
+    </loggers>
+</configuration>
