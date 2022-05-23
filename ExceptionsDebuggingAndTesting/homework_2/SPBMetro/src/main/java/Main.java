@@ -16,27 +16,16 @@ import java.util.Scanner;
 
 public class Main {
     private static final String DATA_FILE = "ExceptionsDebuggingAndTesting/homework_2/SPBMetro/src/main/resources/map.json";
-    private static final Marker search = MarkerManager.getMarker("SEARCH"); //добавил
-    private static final Marker errors = MarkerManager.getMarker("ERRORS");//добавил
-    private static final Marker debugs = MarkerManager.getMarker("DEBUG");//добавил
-    private static Logger rootLogger;//добавил
+    private static final Marker search = MarkerManager.getMarker("SEARCH");
+    private static final Marker errors = MarkerManager.getMarker("ERRORS");
+    private static final Marker debugs = MarkerManager.getMarker("DEBUG");
+    private static Logger rootLogger;
     private static Scanner scanner;
-    private static Logger loggerSearch;
-    private static Logger loggerErrors;
-    private static Logger loggerExceptions;
-
-
-
     private static StationIndex stationIndex;
 
     public static void main(String[] args) {
-        loggerSearch = LogManager.getLogger("SPB_Search_Log");
-        loggerErrors = LogManager.getLogger("SPB_Error_Log");
-        loggerExceptions = LogManager.getLogger("SPB_Debug_Log");
-
         rootLogger = LogManager.getRootLogger();
         RouteCalculator calculator = getRouteCalculator();
-
 
         System.out.println("Программа расчёта маршрутов метрополитена Санкт-Петербурга\n");
         scanner = new Scanner(System.in);
@@ -61,7 +50,7 @@ public class Main {
             createStationIndex();
 
         } catch (Exception ex) {
-            //loggerExceptions.debug(ex + " - " + "Не удалось создать stationIndex");
+            rootLogger.error(debugs, ex + " - " + "не удалось создать stationIndex");
         }
         return new RouteCalculator(stationIndex);
     }
@@ -88,12 +77,10 @@ public class Main {
             String line = scanner.nextLine().trim();
             Station station = stationIndex.getStation(line);
             if (station != null) {
-                //loggerSearch.info("Найдена станция \"" + line + "\"");
-                rootLogger.info(search, "Найдена станция \"" + line + "\" с маркером" );//добавил
+                rootLogger.info(search, "Найдена станция \"" + line + "\" с маркером");//добавил
                 return station;
             }
-            //loggerErrors.error("Станция \"" + line + "\" не найдена!");
-            rootLogger.error(errors,"Станция \"" + line + "\" не найдена! с маркером" );//добавил
+            rootLogger.info(errors, "Станция \"" + line + "\" не найдена! с маркером");//добавил
             System.out.println("Станция не найдена :(");
         }
     }
@@ -113,8 +100,7 @@ public class Main {
             JSONArray connectionsArray = (JSONArray) jsonData.get("connections");
             parseConnections(connectionsArray);
         } catch (Exception ex) {
-            //loggerExceptions.debug(ex + " - " + "Невозможно прочитать файл");
-            rootLogger.debug(debugs, ex + " - " + "Невозможно прочитать файл с маркером");//добавил
+            rootLogger.error(debugs, ex + " - " + "неправильный путь к файлу");
         }
     }
 
@@ -137,15 +123,11 @@ public class Main {
                                 stationName + " on line " + lineNumber + " not found");
                     }
                     connectionStations.add(station);
-
                 });
                 stationIndex.addConnection(connectionStations);
-
             });
         } catch (Exception ex) {
-            //loggerExceptions.debug(ex + " - " + "Невозмоно прочитать пересадки");
-            rootLogger.debug(debugs,ex + " - " + "Невозмоно прочитать пересадки с маркером" );// добавил
-            ex.getMessage();
+            rootLogger.error(debugs, ex + " - " + "невозмоно прочитать пересадки");
         }
     }
 
@@ -164,8 +146,7 @@ public class Main {
                 });
             });
         } catch (Exception ex) {
-            //loggerExceptions.debug(ex + " - " + "Невозмоно прочитать станции");
-            rootLogger.debug(debugs,ex + " - " + "Невозмоно прочитать пересадки с маркером" );// добавил
+            rootLogger.error(debugs, ex + " - " + "невозмоно прочитать станции");
         }
     }
 
@@ -173,17 +154,16 @@ public class Main {
         try {
 
 
-        linesArray.forEach(lineObject -> {
-            JSONObject lineJsonObject = (JSONObject) lineObject;
-            Line line = new Line(
-                    ((Long) lineJsonObject.get("number")).intValue(),
-                    (String) lineJsonObject.get("name")
-            );
-            stationIndex.addLine(line);
-        });
-    }catch (Exception ex){
-            //loggerExceptions.debug(ex + " - " + "Невозмоно прочитать линии");
-            rootLogger.debug(debugs,ex + " - " + "Невозмоно прочитать пересадки с маркером" );// добавил
+            linesArray.forEach(lineObject -> {
+                JSONObject lineJsonObject = (JSONObject) lineObject;
+                Line line = new Line(
+                        ((Long) lineJsonObject.get("number")).intValue(),
+                        (String) lineJsonObject.get("name")
+                );
+                stationIndex.addLine(line);
+            });
+        } catch (Exception ex) {
+            rootLogger.error(debugs, ex + " - " + "невозмоно прочитать линии");
         }
     }
 
@@ -193,8 +173,7 @@ public class Main {
             List<String> lines = Files.readAllLines(Paths.get(DATA_FILE));
             lines.forEach(line -> builder.append(line));
         } catch (Exception ex) {
-            //loggerExceptions.debug(ex + " - " + "Неправильный путь к файлу");
-            rootLogger.debug(debugs,ex + " - " + "Невозмоно прочитать пересадки с маркером" );// добавил
+            rootLogger.error(debugs, ex + " - " + "невозмоно прочитать файл");
         }
         return builder.toString();
     }
