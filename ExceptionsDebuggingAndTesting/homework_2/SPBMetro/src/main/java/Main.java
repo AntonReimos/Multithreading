@@ -77,10 +77,10 @@ public class Main {
             String line = scanner.nextLine().trim();
             Station station = stationIndex.getStation(line);
             if (station != null) {
-                rootLogger.info(search, "Найдена станция \"" + line + "\" с маркером");//добавил
+                rootLogger.info(search, "Найдена станция \"" + line + "\"");
                 return station;
             }
-            rootLogger.info(errors, "Станция \"" + line + "\" не найдена! с маркером");//добавил
+            rootLogger.info(errors, "Станция \"" + line + "\" не найдена!");
             System.out.println("Станция не найдена :(");
         }
     }
