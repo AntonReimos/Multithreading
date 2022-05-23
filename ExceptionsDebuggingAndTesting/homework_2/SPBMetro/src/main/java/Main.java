@@ -77,10 +77,10 @@ public class Main {
             String line = scanner.nextLine().trim();
             Station station = stationIndex.getStation(line);
             if (station != null) {
-                rootLogger.info(search, "Найдена станция \"" + line + "\"");
+                rootLogger.info(search, "User search station {} and the result is {}", line, station);
                 return station;
             }
-            rootLogger.info(errors, "Станция \"" + line + "\" не найдена!");
+            rootLogger.info(errors, "Station {} not found!", line);
             System.out.println("Станция не найдена :(");
         }
     }
@@ -100,7 +100,7 @@ public class Main {
             JSONArray connectionsArray = (JSONArray) jsonData.get("connections");
             parseConnections(connectionsArray);
         } catch (Exception ex) {
-            rootLogger.error(debugs, ex + " - " + "неправильный путь к файлу");
+            rootLogger.error(debugs, "Неправильный путь к файлу", ex);
         }
     }
 
@@ -127,7 +127,7 @@ public class Main {
                 stationIndex.addConnection(connectionStations);
             });
         } catch (Exception ex) {
-            rootLogger.error(debugs, ex + " - " + "невозмоно прочитать пересадки");
+            rootLogger.error(debugs, "невозмоно прочитать пересадки", ex);
         }
     }
 
@@ -146,7 +146,7 @@ public class Main {
                 });
             });
         } catch (Exception ex) {
-            rootLogger.error(debugs, ex + " - " + "невозмоно прочитать станции");
+            rootLogger.error(debugs, "невозмоно прочитать станции", ex);
         }
     }
 
@@ -163,7 +163,7 @@ public class Main {
                 stationIndex.addLine(line);
             });
         } catch (Exception ex) {
-            rootLogger.error(debugs, ex + " - " + "невозмоно прочитать линии");
+            rootLogger.error(debugs, "невозмоно прочитать линии", ex);
         }
     }
 
@@ -173,7 +173,7 @@ public class Main {
             List<String> lines = Files.readAllLines(Paths.get(DATA_FILE));
             lines.forEach(line -> builder.append(line));
         } catch (Exception ex) {
-            rootLogger.error(debugs, ex + " - " + "невозмоно прочитать файл");
+            rootLogger.error(debugs, "невозмоно прочитать файл", ex);
         }
         return builder.toString();
     }
