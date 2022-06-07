@@ -5,7 +5,7 @@ public class FileUtils {
 
     public static long calculateFolderSize(String path) {
         File folder = new File(path);
-        if (!folder.exists() || (!folder.isDirectory() && !folder.isFile())){
+        if (!folder.exists() || (!folder.isDirectory() && !folder.isFile())) {
             throw new IllegalArgumentException("Путь указан неверно");
         }
         try {
