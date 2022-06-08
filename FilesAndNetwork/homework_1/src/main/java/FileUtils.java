@@ -8,7 +8,6 @@ public class FileUtils {
         if (!folder.exists() || (!folder.isDirectory() && !folder.isFile())) {
             throw new IllegalArgumentException("Путь указан неверно");
         }
-        try {
             if (folder.isFile()) {
                 return folder.length();
             }
@@ -17,10 +16,6 @@ public class FileUtils {
             for (File file : files) {
                 size += calculateFolderSize(file.getPath());
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return size;
     }
 }
