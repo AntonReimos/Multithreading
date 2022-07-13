@@ -3,7 +3,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,8 +15,10 @@ public class Metro {
     private static HashMap<String, List<String>> stationMap = new HashMap<>();
     private static HashMap<String, String> linesName = new HashMap<>();
     private static List<Line> lines = new ArrayList<>();
+    private static String filename;
 
-    public void metro(String url) throws IOException {
+    public void metro(String url, String filename) throws IOException {
+        this.filename = filename;
         Metro.createObjects(Metro.HTML(url));
         Metro.createJSON();
     }
@@ -66,14 +67,12 @@ public class Metro {
         Stations stations = new Stations();
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonStation = "";
-        String jsonLine = "";
         stations.setStations(stationMap);
         stations.setLines(lines);
         jsonStation = objectMapper.writeValueAsString(stations);
         BufferedWriter writer = new BufferedWriter(
-                new FileWriter("FilesAndNetwork\\ParseMetro\\src\\main\\resources\\map2.json"));
+                new FileWriter(filename));
         writer.write(jsonStation);
-        writer.write(jsonLine);
         writer.flush();
         writer.close();
     }
