@@ -3,9 +3,10 @@ import java.util.Date;
 
 @Entity
 @Table(name = "students")
-public class Students {
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @OneToOne(cascade = CascadeType.ALL)
     private int id;
     private String name;
     private int age;
