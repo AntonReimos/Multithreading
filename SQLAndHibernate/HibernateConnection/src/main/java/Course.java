@@ -12,7 +12,6 @@ public class Course {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum")
     private CourseType type;
-
     private String description;
     @ManyToOne(cascade = CascadeType.ALL)
     private Teacher teacher;
@@ -21,6 +20,15 @@ public class Course {
     private int price;
     @Column(name = "price_per_hour")
     private float pricePerHour;
+
+    //что-то не так тут
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumns({
+            @JoinColumn(name="course_id", referencedColumnName="course_id"),
+            @JoinColumn(name="student_id", referencedColumnName="student_id")})
+    //@JoinColumn(name = "id")
+    private Subscription subscription;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Subscriptions",
@@ -106,5 +114,13 @@ public class Course {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
     }
 }

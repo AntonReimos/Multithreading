@@ -1,17 +1,29 @@
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "students")
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OneToOne(cascade = CascadeType.ALL)
     private int id;
     private String name;
     private int age;
     @Column(name = "registration_date")
     private Date registrationDate;
+    @OneToMany(mappedBy = "student")
+    private List<Subscription> subscriptionList = new ArrayList<>();
+
+    public List<Subscription> getSubscriptionList() {
+        return subscriptionList;
+    }
+
+    public void setSubscriptionList(List<Subscription> subscriptionList) {
+        this.subscriptionList = subscriptionList;
+    }
 
     public int getId() {
         return id;
