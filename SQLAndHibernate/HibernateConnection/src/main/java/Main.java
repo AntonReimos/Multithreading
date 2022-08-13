@@ -12,9 +12,8 @@ public class Main {
         Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
         SessionFactory sessionFactory = metadata.getSessionFactoryBuilder().build();
         Session session = sessionFactory.openSession();
-        Subscription subscription = session.get(Subscription.class, new SubscriptionKey(1,2));
         Course course = session.get(Course.class, 1);
-        //Student student = session.get(Student.class, 5);
+        Student student = session.get(Student.class, 5);
         PurchaseList purchaseList = session.get(PurchaseList.class, new PurchaseListKey("Лилов Тимофей", "Java-разработчик"));
 //        String out = student.getId() + " - " +
 //                student.getName() + " - " +
@@ -27,6 +26,7 @@ public class Main {
 //        System.out.println("Студенты курса " + course.getName());
 //        studentList.stream().map(student1 -> student1.getName()).forEach(System.out::println);
 //        System.out.println(course.getTeacher().getName());
+         student.getSubscription().stream().map(subscription -> subscription.getCourseId()).forEach(System.out::println);
 //        System.out.println(out);
 
         sessionFactory.close();

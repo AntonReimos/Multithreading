@@ -1,5 +1,4 @@
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,16 +13,19 @@ public class Student {
     private int age;
     @Column(name = "registration_date")
     private Date registrationDate;
-    @OneToMany(mappedBy = "student")
-    private List<Subscription> subscriptionList = new ArrayList<>();
 
-    public List<Subscription> getSubscriptionList() {
-        return subscriptionList;
+    public List<Subscription> getSubscription() {
+        return subscription;
     }
 
-    public void setSubscriptionList(List<Subscription> subscriptionList) {
-        this.subscriptionList = subscriptionList;
+    public void setSubscription(List<Subscription> subscription) {
+        this.subscription = subscription;
     }
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private List<Subscription> subscription;
+
 
     public int getId() {
         return id;

@@ -1,6 +1,5 @@
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 
 //TODO:Изучите каждую таблицу и найдите связи между ними.
@@ -27,17 +26,8 @@ public class Subscription {
     @Column(name = "subscription_date")
     private Date subsctriptionDate;
 
-    @ManyToOne()
-    @JoinColumn(name = "student_id",
-            insertable = false, updatable = false)
-    private Student student;
 
 
-    // что-то не так тут
-    @OneToMany(mappedBy = "subscription")
-//    @JoinColumn(name = "id",
-//            insertable = false, updatable = false)
-    private List<Course> courses;
 
     public int getStudentId() {
         return studentId;
@@ -45,22 +35,6 @@ public class Subscription {
 
     public void setStudentId(int studentId) {
         this.studentId = studentId;
-    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
     }
 
 

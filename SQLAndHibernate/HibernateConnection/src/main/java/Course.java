@@ -21,14 +21,17 @@ public class Course {
     @Column(name = "price_per_hour")
     private float pricePerHour;
 
-    //что-то не так тут
+    public List<Subscription> getSubscription() {
+        return subscription;
+    }
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumns({
-            @JoinColumn(name="course_id", referencedColumnName="course_id"),
-            @JoinColumn(name="student_id", referencedColumnName="student_id")})
-    //@JoinColumn(name = "id")
-    private Subscription subscription;
+    public void setSubscription(List<Subscription> subscription) {
+        this.subscription = subscription;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private List<Subscription> subscription;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Subscriptions",
@@ -116,11 +119,4 @@ public class Course {
         this.students = students;
     }
 
-    public Subscription getSubscription() {
-        return subscription;
-    }
-
-    public void setSubscription(Subscription subscription) {
-        this.subscription = subscription;
-    }
 }
