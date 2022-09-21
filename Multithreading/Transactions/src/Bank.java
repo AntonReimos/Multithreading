@@ -1,14 +1,24 @@
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
-public class Bank {
+public class Bank implements Runnable {
 
-    private Map<String, Account> accounts;
+    private Map<Integer, Account> accounts = new HashMap<>();
     private final Random random = new Random();
+    private final long LIMIT = 50_000;
 
-    public synchronized boolean isFraud(String fromAccountNum, String toAccountNum, long amount)
-        throws InterruptedException {
+    @Override
+    public void run() {
+
+    }
+
+    // изменять не нужно
+    public synchronized boolean isFraud(Integer fromAccountNum, Integer toAccountNum, long amount)
+            throws InterruptedException {
         Thread.sleep(1000);
+        System.out.println("Проверка!");
         return random.nextBoolean();
     }
 
@@ -18,18 +28,73 @@ public class Bank {
      * метод isFraud. Если возвращается true, то делается блокировка счетов (как – на ваше
      * усмотрение)
      */
-    public void transfer(String fromAccountNum, String toAccountNum, long amount) {
+    public void transfer(Integer fromAccountNum, Integer toAccountNum, long amount) throws InterruptedException {
 
+        if (amount < LIMIT &&
+                accounts.get(fromAccountNum).isBlock() == false &&
+                accounts.get(toAccountNum).isBlock() == false) {
+            long fromMoney = accounts.get(fromAccountNum).getMoney();
+            long toMoney = accounts.get(toAccountNum).getMoney();
+            System.out.println("Было: " + toMoney);
+            accounts.get(fromAccountNum).setMoney(fromMoney -= amount);
+            accounts.get(toAccountNum).setMoney(toMoney += amount);
+            System.out.println("Перевод от " +
+                    accounts.get(fromAccountNum).getAccNumber() +
+                    " получателю " + accounts.get(toAccountNum).getAccNumber() +
+                    " совершен" + " Стало: " + accounts.get(toAccountNum).getMoney());
+        } else {
+            boolean fraud = isFraud(fromAccountNum, toAccountNum, amount);
+            if (fraud == true) {
+                accounts.get(fromAccountNum).setBlock(true);
+                accounts.get(toAccountNum).setBlock(true);
+            } else {
+                accounts.get(fromAccountNum).setBlock(false);
+                accounts.get(toAccountNum).setBlock(false);
+            }
+        }
+    }
+
+
+    public void compare(Integer fromAccountNum, Integer toAccountNum, long amount) throws InterruptedException {
+        int hashFrom = System.identityHashCode(fromAccountNum);
+        int hashTo = System.identityHashCode(toAccountNum);
+        if (hashFrom < hashTo) {
+            synchronized (fromAccountNum) {
+                synchronized (toAccountNum) {
+                    transfer(fromAccountNum, toAccountNum, amount);
+                }
+            }
+        } else if (hashTo < hashFrom) {
+            synchronized (toAccountNum) {
+                synchronized (fromAccountNum) {
+                    transfer(fromAccountNum, toAccountNum, amount);
+                }
+            }
+        }
+
+    }
+
+    public void setMap(Integer name, Account account) {
+        this.accounts.put(name, account);
+    }
+
+    public Map<Integer, Account> getAccounts() {
+        return accounts;
     }
 
     /**
      * TODO: реализовать метод. Возвращает остаток на счёте.
      */
-    public long getBalance(String accountNum) {
-        return 0;
+    public long getBalance(Integer accountNum) {
+        return accounts.get(accountNum).getMoney();
     }
 
     public long getSumAllAccounts() {
-        return 0;
+        Set<Integer> keySet= accounts.keySet();
+        long sumMoney = 0;
+        for (Integer k: keySet){
+           sumMoney += accounts.get(k).getMoney();
+        }
+        return sumMoney;
     }
 }

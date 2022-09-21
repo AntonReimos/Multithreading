@@ -1,7 +1,21 @@
 public class Account {
 
     private long money;
-    private String accNumber;
+    private Integer accNumber;
+    private boolean isBlock = false;
+
+    public Account(Integer num, long money) {
+        this.accNumber = num;
+        this.money = money;
+    }
+
+    public boolean isBlock() {
+        return isBlock;
+    }
+
+    public void setBlock(boolean block) {
+        isBlock = block;
+    }
 
     public long getMoney() {
         return money;
@@ -11,11 +25,11 @@ public class Account {
         this.money = money;
     }
 
-    public String getAccNumber() {
+    public Integer getAccNumber() {
         return accNumber;
     }
 
-    public void setAccNumber(String accNumber) {
+    public void setAccNumber(Integer accNumber) {
         this.accNumber = accNumber;
     }
 }
