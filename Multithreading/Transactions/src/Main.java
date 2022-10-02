@@ -1,50 +1,32 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         Bank bank = new Bank();
         for (int i = 1; i <= 10; i++) {
             double money = Math.random() * 1_000_000;
-            Account account = new Account(i, (long) money);
-            bank.setMap(i, account);
+            String name = Integer.toString(i);
+            Account account = new Account(name, (long) money);
+            bank.setMap(name, account);
         }
 
-//        for (int i = 1; i <= 10; i++) {
-//            System.out.println("Номер счета: " + bank.getAccounts().get(i).getAccNumber() + "\n" +
-//                    "Остаток на счету: " + bank.getAccounts().get(i).getMoney() + "\n" +
-//                    "Блокировка: " + bank.getAccounts().get(i).isBlock());
-//        }
-        new Thread(() -> {
-            try {
-                bank.compare(2, 5, 25000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        Random random = new Random();
 
-        new Thread(() -> {
-            try {
-                bank.compare(4, 6, 51000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        List<Thread> threads = new ArrayList<>();
 
-        new Thread(() -> {
-            try {
-                bank.compare(1, 3, 15000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        for (int i = 0; i < 20; i++) {
+            threads.add(new Thread(() -> {
+                try {
+                    bank.transfer(String.valueOf(random.nextInt(10)),
+                            String.valueOf(random.nextInt(10)), random.nextInt(70000));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }));
+        }
 
-        new Thread(() -> {
-            try {
-                bank.compare(7, 3, 75000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
-        System.out.println(bank.getSumAllAccounts());
-
-        System.out.println(bank.getBalance(6));
+        threads.forEach(Thread::start);
     }
 }

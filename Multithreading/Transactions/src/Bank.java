@@ -1,11 +1,8 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Bank implements Runnable {
 
-    private Map<Integer, Account> accounts = new HashMap<>();
+    private Map<String, Account> accounts = new HashMap<>();
     private final Random random = new Random();
     private final long LIMIT = 50_000;
 
@@ -15,10 +12,10 @@ public class Bank implements Runnable {
     }
 
     // изменять не нужно
-    public synchronized boolean isFraud(Integer fromAccountNum, Integer toAccountNum, long amount)
+    public synchronized boolean isFraud(String fromAccountNum, String toAccountNum)
             throws InterruptedException {
         Thread.sleep(1000);
-        System.out.println("Проверка!");
+        System.out.println(Thread.currentThread().getName() + " " + "Проверка аккаунтов: " + fromAccountNum + " и " + toAccountNum + "!");
         return random.nextBoolean();
     }
 
@@ -28,72 +25,61 @@ public class Bank implements Runnable {
      * метод isFraud. Если возвращается true, то делается блокировка счетов (как – на ваше
      * усмотрение)
      */
-    public void transfer(Integer fromAccountNum, Integer toAccountNum, long amount) throws InterruptedException {
+    public void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
+        String firstLock = compare(fromAccountNum, toAccountNum) > 0 ? fromAccountNum : toAccountNum;
+        String secondLock = compare(fromAccountNum, toAccountNum) > 0 ? toAccountNum : fromAccountNum;
+        synchronized (firstLock) {
+            synchronized (secondLock) {
+                System.out.println(Thread.currentThread().getName() + " - " + fromAccountNum + " " + toAccountNum);
 
-        if (amount < LIMIT &&
-                accounts.get(fromAccountNum).isBlock() == false &&
-                accounts.get(toAccountNum).isBlock() == false) {
-            long fromMoney = accounts.get(fromAccountNum).getMoney();
-            long toMoney = accounts.get(toAccountNum).getMoney();
-            System.out.println("Было: " + toMoney);
-            accounts.get(fromAccountNum).setMoney(fromMoney -= amount);
-            accounts.get(toAccountNum).setMoney(toMoney += amount);
-            System.out.println("Перевод от " +
-                    accounts.get(fromAccountNum).getAccNumber() +
-                    " получателю " + accounts.get(toAccountNum).getAccNumber() +
-                    " совершен" + " Стало: " + accounts.get(toAccountNum).getMoney());
-        } else {
-            boolean fraud = isFraud(fromAccountNum, toAccountNum, amount);
-            if (fraud == true) {
-                accounts.get(fromAccountNum).setBlock(true);
-                accounts.get(toAccountNum).setBlock(true);
-            } else {
-                accounts.get(fromAccountNum).setBlock(false);
-                accounts.get(toAccountNum).setBlock(false);
+                if (amount > LIMIT && !fromAccountNum.equals(toAccountNum)) {
+                    boolean froud = isFraud(fromAccountNum, toAccountNum);
+                    accounts.get(fromAccountNum).setBlock(froud);
+                    accounts.get(toAccountNum).setBlock(froud);
+                    System.out.println(amount);
+                    System.out.println("Блокировка: " + fromAccountNum + " и " + toAccountNum + "!");
+                } else if (accounts.get(fromAccountNum).isBlock() == false &&
+                        accounts.get(toAccountNum).isBlock() == false &&
+                        !fromAccountNum.equals(toAccountNum)) {
+                    System.out.println(Thread.currentThread().getName());
+                    System.out.println("Перевод совершен!");
+                    System.out.println("Было: " + accounts.get(fromAccountNum).getMoney() + " - " + accounts.get(toAccountNum).getMoney());
+                    accounts.get(fromAccountNum).describe(amount);
+                    accounts.get(toAccountNum).enrollment(amount);
+                    System.out.println("Стало: " + accounts.get(fromAccountNum).getMoney() + " - " + accounts.get(toAccountNum).getMoney());
+                } else {
+                    System.out.println("Счета заблокированы!");
+                }
             }
         }
     }
 
 
-    public void compare(Integer fromAccountNum, Integer toAccountNum, long amount) throws InterruptedException {
-        int hashFrom = System.identityHashCode(fromAccountNum);
-        int hashTo = System.identityHashCode(toAccountNum);
-        if (hashFrom < hashTo) {
-            synchronized (fromAccountNum) {
-                synchronized (toAccountNum) {
-                    transfer(fromAccountNum, toAccountNum, amount);
-                }
-            }
-        } else if (hashTo < hashFrom) {
-            synchronized (toAccountNum) {
-                synchronized (fromAccountNum) {
-                    transfer(fromAccountNum, toAccountNum, amount);
-                }
-            }
-        }
-
+    private int compare(String fromAccountName, String toAccountName) {
+        return fromAccountName.compareTo(toAccountName);
     }
 
-    public void setMap(Integer name, Account account) {
+
+    public void setMap(String name, Account account) {
         this.accounts.put(name, account);
     }
 
-    public Map<Integer, Account> getAccounts() {
+    public Map<String, Account> getAccounts() {
         return accounts;
     }
 
     /**
      * TODO: реализовать метод. Возвращает остаток на счёте.
      */
-    public long getBalance(Integer accountNum) {
+    public long getBalance(String accountNum) {
         return accounts.get(accountNum).getMoney();
     }
 
     public long getSumAllAccounts() {
-        Set<Integer> keySet= accounts.keySet();
+        Set<String> keySet = accounts.keySet();
         long sumMoney = 0;
-        for (Integer k: keySet){
-           sumMoney += accounts.get(k).getMoney();
+        for (String k : keySet) {
+            sumMoney += accounts.get(k).getMoney();
         }
         return sumMoney;
     }
