@@ -1,9 +1,12 @@
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Account {
 
-    private long money;
+    private volatile long money;
     private String accNumber;
-    private boolean isBlock = false;
+    private volatile boolean isBlock = false;
+
+
 
     public Account(String num, long money) {
         this.accNumber = num;
@@ -17,7 +20,6 @@ public class Account {
     public void setBlock(boolean block) {
         isBlock = block;
     }
-    public boolean getBlock(){return isBlock;}
 
     public long getMoney() {
         return money;
@@ -35,12 +37,12 @@ public class Account {
         this.accNumber = accNumber;
     }
 
-    public long describe(long amount){
+    public long describe(long amount) {
         this.money = this.money - amount;
         return this.money;
     }
 
-    public long enrollment(long amount){
+    public long enrollment(long amount) {
         this.money = this.money + amount;
         return this.money;
     }

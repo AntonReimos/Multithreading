@@ -5,7 +5,7 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         Bank bank = new Bank();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 0; i <= 10; i++) {
             double money = Math.random() * 1_000_000;
             String name = Integer.toString(i);
             Account account = new Account(name, (long) money);
@@ -29,5 +29,6 @@ public class Main {
 
 
         threads.forEach(Thread::start);
+        System.out.println("Количестко потоков: " + Thread.activeCount());
     }
 }

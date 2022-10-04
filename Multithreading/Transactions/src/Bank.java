@@ -2,9 +2,10 @@ import java.util.*;
 
 public class Bank implements Runnable {
 
-    private Map<String, Account> accounts = new HashMap<>();
+    private Map<String, Account> accounts = new Hashtable<>();
     private final Random random = new Random();
     private final long LIMIT = 50_000;
+
 
     @Override
     public void run() {
@@ -28,30 +29,35 @@ public class Bank implements Runnable {
     public void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
         String firstLock = compare(fromAccountNum, toAccountNum) > 0 ? fromAccountNum : toAccountNum;
         String secondLock = compare(fromAccountNum, toAccountNum) > 0 ? toAccountNum : fromAccountNum;
-        synchronized (firstLock) {
-            synchronized (secondLock) {
-                System.out.println(Thread.currentThread().getName() + " - " + fromAccountNum + " " + toAccountNum);
+        if (fromAccountNum.equals(toAccountNum)) {
+            System.out.println("Указан одинаковый счет,  передача невозможна");
+        } else {
+            //synchronized (firstLock) {
+              //  synchronized (secondLock) {
+                    System.out.println(Thread.currentThread().getName() + " - " + fromAccountNum + " " + toAccountNum);
 
-                if (amount > LIMIT && !fromAccountNum.equals(toAccountNum)) {
-                    boolean froud = isFraud(fromAccountNum, toAccountNum);
-                    accounts.get(fromAccountNum).setBlock(froud);
-                    accounts.get(toAccountNum).setBlock(froud);
-                    System.out.println(amount);
-                    System.out.println("Блокировка: " + fromAccountNum + " и " + toAccountNum + "!");
-                } else if (accounts.get(fromAccountNum).isBlock() == false &&
-                        accounts.get(toAccountNum).isBlock() == false &&
-                        !fromAccountNum.equals(toAccountNum)) {
-                    System.out.println(Thread.currentThread().getName());
-                    System.out.println("Перевод совершен!");
-                    System.out.println("Было: " + accounts.get(fromAccountNum).getMoney() + " - " + accounts.get(toAccountNum).getMoney());
-                    accounts.get(fromAccountNum).describe(amount);
-                    accounts.get(toAccountNum).enrollment(amount);
-                    System.out.println("Стало: " + accounts.get(fromAccountNum).getMoney() + " - " + accounts.get(toAccountNum).getMoney());
-                } else {
-                    System.out.println("Счета заблокированы!");
+                    if (amount > LIMIT) {
+                        boolean froud = isFraud(fromAccountNum, toAccountNum);
+                        accounts.get(fromAccountNum).setBlock(froud);
+                        accounts.get(toAccountNum).setBlock(froud);
+                        System.out.println("Сумма: " + amount + " Блокировка: " + fromAccountNum + " и " + toAccountNum + "!");
+                    } else if (accounts.get(fromAccountNum).isBlock() == false &&
+                            accounts.get(toAccountNum).isBlock() == false) {
+                        System.out.println(Thread.currentThread().getName() + " Перевод совершен!");
+                        System.out.println(Thread.currentThread().getName() +
+                                "Было: " + accounts.get(fromAccountNum).getMoney() +
+                                " - " + accounts.get(toAccountNum).getMoney());
+                        accounts.get(fromAccountNum).describe(amount);
+                        accounts.get(toAccountNum).enrollment(amount);
+                        System.out.println(Thread.currentThread().getName() +
+                                "Стало: " + accounts.get(fromAccountNum).getMoney() +
+                                " - " + accounts.get(toAccountNum).getMoney());
+                    } else {
+                        System.out.println("Счета заблокированы!");
+                    }
                 }
-            }
-        }
+        //    }
+      //  }
     }
 
 
