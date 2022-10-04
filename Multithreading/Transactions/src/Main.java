@@ -27,6 +27,7 @@ public class Main {
             }));
         }
 
+
         threads.forEach(Thread::start);
     }
 }
